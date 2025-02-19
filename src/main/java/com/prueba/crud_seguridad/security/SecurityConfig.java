@@ -1,8 +1,9 @@
 package com.prueba.crud_seguridad.security;
 
 
+import com.prueba.crud_seguridad.security.jwt.JwtAuthenticationFilter;
 import com.prueba.crud_seguridad.security.jwt.JwtUtil;
-import com.prueba.crud_seguridad.service.IUsuarioService;
+import com.prueba.crud_seguridad.service.interfaces.IUsuarioService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,20 +13,16 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableMethodSecurity(prePostEnabled=true)
 public class SecurityConfig {
-    private final AuthenticationManager authenticationManager;
 
-    private final JwtUtil jwtUtil;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    private final IUsuarioService iUsuarioService;
-
-    public SecurityConfig(AuthenticationManager authenticationManager, JwtUtil jwtUtil, IUsuarioService iUsuarioService) {
-        this.authenticationManager = authenticationManager;
-        this.jwtUtil = jwtUtil;
-        this.iUsuarioService = iUsuarioService;
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @Bean
@@ -36,9 +33,10 @@ public class SecurityConfig {
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 //.authenticationProvider(authenticationProvider)
                 .authorizeHttpRequests( config -> config
-                        .requestMatchers(HttpMethod.GET, "/api/usuario").authenticated()
-                        .anyRequest().permitAll())
-                //.addFilter(new LoginServiceImpl(authenticationManager, jwtUtil,iUsuarioService),UsernamePasswordAuthenticationFilter.class)
+                        .requestMatchers(HttpMethod.GET, "/api/usuarios").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
+                        .anyRequest().authenticated()   )
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                .build();
     }
 

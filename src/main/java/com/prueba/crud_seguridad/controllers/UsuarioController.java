@@ -1,12 +1,13 @@
 package com.prueba.crud_seguridad.controllers;
 
 import com.prueba.crud_seguridad.entities.Usuario;
-import com.prueba.crud_seguridad.request.AutenticacionRequest;
+import com.prueba.crud_seguridad.request.AuthenticationRequest;
 import com.prueba.crud_seguridad.request.AuthenticationResponse;
-import com.prueba.crud_seguridad.service.ILoginService;
-import com.prueba.crud_seguridad.service.UsuarioServiceImpl;
+import com.prueba.crud_seguridad.service.interfaces.ILoginService;
+import com.prueba.crud_seguridad.service.implementation.UsuarioServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class UsuarioController {
    // private final AuthenticationManager authenticationManager;
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public List<Usuario> findAll(){
         return usuarioServiceimpl.findAll();
     }
@@ -51,11 +53,11 @@ public class UsuarioController {
 
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody AutenticacionRequest request){
+   /* @PostMapping("/login")
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest request){
         //AuthenticationResponse auth = iLoginService.login(request);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(iLoginService.login(request));
-    }
+    }*/
 
 
    /* @PostMapping("/login")

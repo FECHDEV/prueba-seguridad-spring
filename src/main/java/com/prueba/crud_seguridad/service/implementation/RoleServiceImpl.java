@@ -1,19 +1,20 @@
-package com.prueba.crud_seguridad.service;
+package com.prueba.crud_seguridad.service.implementation;
 
 import com.prueba.crud_seguridad.entities.Role;
 import com.prueba.crud_seguridad.repository.IRoleRRepository;
+import com.prueba.crud_seguridad.service.interfaces.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class IRoleServiceImpl implements IRoleService{
+public class RoleServiceImpl implements IRoleService {
 
     @Autowired
     private IRoleRRepository iRoleRRepository;
 
-    public IRoleServiceImpl(IRoleRRepository iRoleRRepository) {
+    public RoleServiceImpl(IRoleRRepository iRoleRRepository) {
         this.iRoleRRepository = iRoleRRepository;
     }
 

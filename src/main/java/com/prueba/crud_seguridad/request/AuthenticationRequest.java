@@ -1,6 +1,6 @@
 package com.prueba.crud_seguridad.request;
 
-public class AutenticacionRequest {
+public class AuthenticationRequest {
     
     private String username;
     private String password;

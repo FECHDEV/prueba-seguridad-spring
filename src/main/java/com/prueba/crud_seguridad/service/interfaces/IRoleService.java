@@ -1,4 +1,4 @@
-package com.prueba.crud_seguridad.service;
+package com.prueba.crud_seguridad.service.interfaces;
 
 import com.prueba.crud_seguridad.entities.Role;
 

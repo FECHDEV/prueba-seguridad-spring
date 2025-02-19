@@ -1,4 +1,4 @@
-package com.prueba.crud_seguridad.service;
+package com.prueba.crud_seguridad.service.userDetails;
 
 import com.prueba.crud_seguridad.entities.Usuario;
 import com.prueba.crud_seguridad.repository.IUsuarioRepository;

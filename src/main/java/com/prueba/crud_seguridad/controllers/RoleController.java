@@ -1,7 +1,7 @@
 package com.prueba.crud_seguridad.controllers;
 
 import com.prueba.crud_seguridad.entities.Role;
-import com.prueba.crud_seguridad.service.IRoleService;
+import com.prueba.crud_seguridad.service.interfaces.IRoleService;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

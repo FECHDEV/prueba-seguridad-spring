@@ -8,7 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Beans {
+public class BeansInjection {
 
    /* private final JpaUserDetailsService jpaUserDetailsService;
 

@@ -1,9 +1,10 @@
-package com.prueba.crud_seguridad.service;
+package com.prueba.crud_seguridad.service.implementation;
 
 import com.prueba.crud_seguridad.entities.Role;
 import com.prueba.crud_seguridad.entities.Usuario;
 import com.prueba.crud_seguridad.repository.IRoleRRepository;
 import com.prueba.crud_seguridad.repository.IUsuarioRepository;
+import com.prueba.crud_seguridad.service.interfaces.IUsuarioService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UsuarioServiceImpl implements IUsuarioService{
+public class UsuarioServiceImpl implements IUsuarioService {
 
     //@Autowired
     private final IUsuarioRepository iUsuarioRepository;
