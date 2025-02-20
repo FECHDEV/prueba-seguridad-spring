@@ -88,28 +88,23 @@ public class JwtUtil {
         return roles;
     }
 
-    public Boolean validateToken(String token) {
+    public void validateToken(String token) {
         try {
             Jwts.parser().verifyWith(getSecretKey()).build().parseSignedClaims(token);
 
-            return true;
         } catch (ExpiredJwtException e) {
             // Manejo del caso en que el token ha expirado
             System.out.println("El token ha expirado");
-            return false;
         } catch (SignatureException e) {
             // Manejo de error de firma inválida
             System.out.println("La firma del token es inválida");
-            return false;
         } catch (MalformedJwtException e) {
             // Manejo de error de token mal formado
             System.out.println("El token está mal formado");
-            return false;
         } catch (JwtException e) {
-            // Manejo de otros errores generales de JWT
-            System.out.println("Token inválido");
-            return false;
+
         }
+
     }
 
     public List<Role> getListRoles(UsuarioDetails usuarioDetails) {
@@ -117,7 +112,5 @@ public class JwtUtil {
         return usuarioDetails.getAuthorities().stream()
                 .map(grantedAuthority -> new Role(grantedAuthority.getAuthority()))
                 .toList();
-
-//        return role;
     }
 }

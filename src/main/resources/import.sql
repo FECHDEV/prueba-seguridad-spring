@@ -1,5 +1,5 @@
-INSERT INTO roles (name) values ("ROLE_ADMIN");
 INSERT INTO roles (name) values ("ROLE_USUARIO");
+INSERT INTO roles (name) values ("ROLE_ADMIN");
 
 INSERT INTO usuarios (username, password,enabled) VALUES ("usuario","$2a$10$uljO2MjDHGgJzb5qYWHnJepWVqWhW8kZSWtYPK1Yoz5GshoUa2imW",true);
 INSERT INTO usuarios (username, password,enabled) VALUES ("admin","$2a$10$uljO2MjDHGgJzb5qYWHnJepWVqWhW8kZSWtYPK1Yoz5GshoUa2imW",true);

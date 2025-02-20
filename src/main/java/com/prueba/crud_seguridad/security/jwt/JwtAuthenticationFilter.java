@@ -1,5 +1,8 @@
 package com.prueba.crud_seguridad.security.jwt;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.prueba.crud_seguridad.Dto.ApiError;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,15 +40,28 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String jwt = authHeader.substring(7);
 
-        try{
-            if(Boolean.TRUE.equals(jwtUtil.validateToken(jwt))){
-                UsernamePasswordAuthenticationToken authentication = jwtUtil.extractClaims(jwt);
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-                System.out.println("Usuario autenticado: " + authentication.getName());
-                System.out.println("Roles: " + authentication.getAuthorities());
-            }
-        } catch (Exception e){
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token inválido o expirado");
+        try {
+            jwtUtil.validateToken(jwt);
+
+            UsernamePasswordAuthenticationToken authentication = jwtUtil.extractClaims(jwt);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            System.out.println("Usuario autenticado: " + authentication.getName());
+            System.out.println("Roles: " + authentication.getAuthorities());
+        }catch (JwtException e){
+
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+
+            ApiError apiError = new ApiError();
+            apiError.setBackendMessage(e.getLocalizedMessage());
+            apiError.setExceptionType(e.getClass().getSimpleName());
+            apiError.setUrl(request.getRequestURL().toString());
+            apiError.setMethod(request.getMethod());
+            apiError.setMessage("Token inválido, verifique las credenciales de su token");
+            String jsonResponse = new ObjectMapper().writeValueAsString(apiError);
+            response.getWriter().write(jsonResponse);
+            return;
         }
 
         filterChain.doFilter(request, response);
