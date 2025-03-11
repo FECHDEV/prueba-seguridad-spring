@@ -1,4 +1,4 @@
-package com.prueba.crud_seguridad.Dto;
+package com.prueba.crud_seguridad.excepciones.custom;
 
 public class InvalidTokenException extends RuntimeException{
 

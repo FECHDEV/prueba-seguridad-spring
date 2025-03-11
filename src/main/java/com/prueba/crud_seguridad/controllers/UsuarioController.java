@@ -2,6 +2,7 @@ package com.prueba.crud_seguridad.controllers;
 
 import com.prueba.crud_seguridad.entities.Usuario;
 import com.prueba.crud_seguridad.service.implementation.UsuarioServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,7 +30,7 @@ public class UsuarioController {
 
 
     @PostMapping("/registrar")
-    public ResponseEntity<Usuario> create(@RequestBody Usuario usuario){
+    public ResponseEntity<Usuario> create(@Valid @RequestBody Usuario usuario){
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioServiceimpl.save(usuario));
     }
 
@@ -39,8 +40,6 @@ public class UsuarioController {
         if(user.isPresent()){
             return ResponseEntity.ok(user.orElseThrow());
         }
-
         return ResponseEntity.notFound().build();
-
     }
 }

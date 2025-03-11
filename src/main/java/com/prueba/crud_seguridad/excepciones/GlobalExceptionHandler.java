@@ -1,12 +1,15 @@
 package com.prueba.crud_seguridad.excepciones;
 
 import com.prueba.crud_seguridad.Dto.ApiError;
-import com.prueba.crud_seguridad.Dto.InvalidTokenException;
+import com.prueba.crud_seguridad.excepciones.custom.InvalidTokenException;
+import com.prueba.crud_seguridad.excepciones.custom.InvalidDataException;
+import com.prueba.crud_seguridad.excepciones.custom.usernameNotfoundException;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -56,7 +59,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(apiError);
     }
 
-    @ExceptionHandler(JwtException.class)
+    /*@ExceptionHandler(JwtException.class)
     public ResponseEntity<ApiError> ErrorToken(JwtException ex, HttpServletRequest request){
         ApiError apiError = new ApiError();
         apiError.setBackendMessage(ex.getLocalizedMessage());
@@ -67,6 +70,45 @@ public class GlobalExceptionHandler {
         apiError.setTimestamp(LocalDateTime.now());
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(apiError);
+    }*/
+
+    @ExceptionHandler(usernameNotfoundException.class)
+    public ResponseEntity<ApiError> usuarioNoEncontrado(usernameNotfoundException ex, HttpServletRequest request){
+        ApiError apiError = new ApiError();
+        apiError.setBackendMessage(ex.getLocalizedMessage());
+        apiError.setExceptionType(ex.getClass().getSimpleName());
+        apiError.setUrl(request.getRequestURL().toString());
+        apiError.setMethod(request.getMethod());
+        apiError.setMessage("El Usuario que busca no existe en la BD");
+        apiError.setTimestamp(LocalDateTime.now());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
+    }
+
+    @ExceptionHandler(InvalidDataException.class)
+    public ResponseEntity<ApiError> ErrorSintaxix(InvalidDataException ex, HttpServletRequest request){
+        ApiError apiError = new ApiError();
+        apiError.setBackendMessage(ex.getLocalizedMessage());
+        apiError.setExceptionType(ex.getClass().getSimpleName());
+        apiError.setUrl(request.getRequestURL().toString());
+        apiError.setMethod(request.getMethod());
+        apiError.setMessage("jadklsjkldslkdjaslkdjsajdsklajdasjdlkasjdklasdjlksajdlksajdlasjd");
+        apiError.setTimestamp(LocalDateTime.now());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiError> ArgumentNotValid(MethodArgumentNotValidException ex, HttpServletRequest request){
+        ApiError apiError = new ApiError();
+        apiError.setBackendMessage(ex.getLocalizedMessage());
+        apiError.setExceptionType(ex.getClass().getSimpleName());
+        apiError.setUrl(request.getRequestURL().toString());
+        apiError.setMethod(request.getMethod());
+        apiError.setMessage("Usuario y/o contraseña no son invalidos");
+        apiError.setTimestamp(LocalDateTime.now());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
     }
 
 

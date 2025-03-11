@@ -28,6 +28,7 @@ public class Usuario implements Serializable {
 
 
     @NotBlank
+    @Size(min = 4)
     //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
@@ -49,7 +50,7 @@ public class Usuario implements Serializable {
 
     @Transient
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private boolean admin;
+    private Boolean admin;
 
     public String getUsername() {
         return username;
@@ -88,6 +89,11 @@ public class Usuario implements Serializable {
     }
 
     public void setAdmin(boolean admin) {
+
         this.admin = admin;
+    }
+
+    public Boolean getAdmin() {
+        return admin;
     }
 }

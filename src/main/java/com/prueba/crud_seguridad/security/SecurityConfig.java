@@ -2,12 +2,9 @@ package com.prueba.crud_seguridad.security;
 
 
 import com.prueba.crud_seguridad.security.jwt.JwtAuthenticationFilter;
-import com.prueba.crud_seguridad.security.jwt.JwtUtil;
-import com.prueba.crud_seguridad.service.interfaces.IUsuarioService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -36,6 +33,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/usuarios").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
                         .anyRequest().authenticated()   )
+//                .exceptionHandling( ex -> ex.authenticationEntryPoint(auth))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                .build();
     }
